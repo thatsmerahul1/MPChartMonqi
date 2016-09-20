@@ -3,31 +3,20 @@ package com.example.a20113966.mpchartmonqi;
 /**
  * Created by 20113966 on 10-09-2016.
  */
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 
 public class ViewPagerDemo extends FragmentActivity
@@ -39,7 +28,6 @@ public class ViewPagerDemo extends FragmentActivity
 
     // we are going to use a handler to be able to run in our TimerTask
     private final Handler handler = new Handler();
-    private ArrayList<String> imageArray = new ArrayList<String>();
 
     private int j = 0;
 
@@ -48,16 +36,11 @@ public class ViewPagerDemo extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (int i =0; i<4 ; i++)
-            imageArray.add("http://cdn.wonderfulengineering.com/wp-content/uploads/2015/04/india-wallpaper-7.jpg");
-
-
-        List<Fragment> fragments = new Vector<Fragment>();
-
-//for each fragment you want to add to the pager
-        Bundle page = new Bundle();
-        page.putString("url", "Hello India");
-        fragments.add(Fragment.instantiate(this,MyFragment.class.getName(),page));
+        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(new LineChartFragment1());
+        fragments.add(new LineChartFragment2());
+        fragments.add(new LineChartFragment3());
+        fragments.add(new LineChartFragment4());
 
 
         mCustomPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), getApplicationContext(), fragments);
@@ -65,7 +48,6 @@ public class ViewPagerDemo extends FragmentActivity
         llPagerTab= (LinearLayout) findViewById(R.id.llPagerTab);
         mViewPager.setAdapter(mCustomPagerAdapter);
         refreshPageController();
-        startViewPager();
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
@@ -78,8 +60,14 @@ public class ViewPagerDemo extends FragmentActivity
                 {
                     ((ImageView)llPagerTab.getChildAt(i)).setImageResource(R.drawable.nonselecteditem_dot);
                 }
-                ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_dot);
-
+                if(postion == 0)
+                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_blue_dot);
+                else if(postion == 1)
+                ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_yellow_dot);
+                else if(postion == 2)
+                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_blue_dot);
+                else if(postion == 3)
+                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_purpple_dot);
             }
 
             @Override
@@ -117,7 +105,7 @@ public class ViewPagerDemo extends FragmentActivity
         pagerPosition = mViewPager.getCurrentItem();
 
         if(((ImageView)llPagerTab.getChildAt(pagerPosition)) != null)
-            ((ImageView)llPagerTab.getChildAt(pagerPosition)).setImageResource(R.drawable.selecteditem_dot);
+            ((ImageView)llPagerTab.getChildAt(pagerPosition)).setImageResource(R.drawable.selecteditem_blue_dot);
 
     }
 
@@ -127,84 +115,32 @@ public class ViewPagerDemo extends FragmentActivity
         Context mContext;
         LayoutInflater mLayoutInflater;
 
-        List<Fragment> fragments;
+        List<Fragment> listFragments;
 
-
-        public CustomPagerAdapter(FragmentManager fm, Context context, List<Fragment> fragments) {
+        public CustomPagerAdapter(FragmentManager fm, Context context, ArrayList<Fragment> fragments) {
             super(fm);
             mContext = context;
             mLayoutInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.fragments = fragments;
+            this.listFragments = fragments;
         }
+
 
 
         @Override
         public int getCount() {
-            return imageArray.size();
+            if(listFragments != null)
+                return listFragments.size();
+            else
+                return 4;
         }
+
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == ((LinearLayout) object);
-        }
-
-        Display display = getWindowManager().getDefaultDisplay();
-        int screenWidth = display.getWidth();
-        int screenHeight = display.getHeight();
-
         public Fragment getItem(int pos) {
 
-            switch (pos) {
-
-                case 0:
-                    return LineChartFragment.newInstance("FirstFragment, Instance 1");
-                case 1:
-                    return LineChartFragment.newInstance("SecondFragment, Instance 1");
-                case 2:
-                    return LineChartFragment.newInstance("ThirdFragment, Instance 1");
-                case 3:
-                    return LineChartFragment.newInstance("ThirdFragment, Instance 2");
-                case 4:
-                    return LineChartFragment.newInstance("ThirdFragment, Instance 3");
-                default:
-                    return LineChartFragment.newInstance("ThirdFragment, Default");
-            }
+                return listFragments.get(pos);
         }
-
     }
-
-    private void startViewPager() {
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                while (j <= mCustomPagerAdapter.getCount()) {
-                    try {
-                        Thread.sleep(2500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mViewPager.setCurrentItem(j, true);
-                            if (j >= mCustomPagerAdapter.getCount())
-                                j = 0;
-                            else
-                                j++;
-
-                        }
-                    });
-
-
-                }
-            }
-        };
-        new Thread(runnable).start();
-    }
-
-
 
 }

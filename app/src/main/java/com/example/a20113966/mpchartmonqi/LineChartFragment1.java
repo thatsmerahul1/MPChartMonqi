@@ -40,7 +40,7 @@ import com.github.mikephil.charting.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineChartFragment extends Fragment implements OnSeekBarChangeListener,
+public class LineChartFragment1 extends Fragment implements OnSeekBarChangeListener,
         OnChartGestureListener, OnChartValueSelectedListener, RecyclerViewClickListener {
 
     private LineChart mChart;
@@ -165,11 +165,11 @@ public class LineChartFragment extends Fragment implements OnSeekBarChangeListen
 
         return v;
     }
-    public static LineChartFragment newInstance(String text) {
+    public LineChartFragment1 newInstance(int pos) {
 
-        LineChartFragment f = new LineChartFragment();
+        LineChartFragment1 f = new LineChartFragment1();
         Bundle b = new Bundle();
-        b.putString("msg", text);
+        b.putString("msg", pos+"");
 
         f.setArguments(b);
 
@@ -372,19 +372,24 @@ public class LineChartFragment extends Fragment implements OnSeekBarChangeListen
             // create a dataset and give it a type
             set1 = new LineDataSet(yVals, "DataSet 1");
 
-             set1.setFillAlpha(30);
-             set1.setFillColor(Color.BLUE);
+            set1.setFillAlpha(30);
+
+            set1.setFillColor(R.color.light_blue);
+            set1.setColor(R.color.light_blue);
+
 
             // set the line to be drawn like this "- - - - - -"
-            set1.setColor(Color.RED);
+
             set1.setLineWidth(1f);
             set1.setValueTextSize(0f);
             set1.setDrawFilled(true);
 
             if (Utils.getSDKInt() >= 18) {
                 // fill drawable only supported on api level 18 and above
-                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_red);
-                set1.setFillDrawable(drawable);
+
+                    Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_blue);
+                    set1.setFillDrawable(drawable);
+
             }
             else {
                 set1.setFillColor(Color.BLACK);

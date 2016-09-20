@@ -12,7 +12,7 @@ import com.github.mikephil.charting.utils.Utils;
 
 /**
  * Custom implementation of the MarkerView.
- * 
+ *
  * @author Philipp Jahoda
  */
 public class MyMarkerView extends MarkerView {
