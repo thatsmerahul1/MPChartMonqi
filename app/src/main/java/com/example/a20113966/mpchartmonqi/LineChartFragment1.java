@@ -2,6 +2,7 @@
 package com.example.a20113966.mpchartmonqi;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -64,7 +65,8 @@ public class LineChartFragment1 extends Fragment implements OnSeekBarChangeListe
         viewFlipper = (ViewFlipper) v.findViewById(R.id.viewflipper);
 
         /*mSeekBarX.setProgress(45);*/
-        mSeekBarY.setProgress(0);
+        mSeekBarY.setProgress(6);
+        mSeekBarY.setThumb(getResources().getDrawable(R.drawable.seekbar));
 
         mSeekBarY.setOnSeekBarChangeListener(this);
         /*mSeekBarX.setOnSeekBarChangeListener(this);*/
@@ -144,7 +146,7 @@ public class LineChartFragment1 extends Fragment implements OnSeekBarChangeListe
         //mChart.getViewPortHandler().setMaximumScaleX(2f);
 
         // add data
-        setData(45, 100);
+        setData(70, 10);
 
 //        mChart.setVisibleXRange(20);
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
@@ -320,10 +322,10 @@ public class LineChartFragment1 extends Fragment implements OnSeekBarChangeListe
 
         /*tvX.setText("" + (mSeekBarX.getProgress() + 1));*/
 
-        int yValue = 100 - progress;
+        int yValue = 7 - progress;
         tvY.setText("" + yValue);
 
-        setData(100 + 1, yValue);
+        setData(7*10 /*xValues*/, yValue*10);
 
         // redraw
         mChart.invalidate();

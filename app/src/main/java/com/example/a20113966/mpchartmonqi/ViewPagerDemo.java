@@ -54,20 +54,18 @@ public class ViewPagerDemo extends FragmentActivity
             @Override
             public void onPageSelected(int postion)
             {
-
-
-                for (int i = 0; i <= (mCustomPagerAdapter.getCount()-1); i++)
+                for (int i = 0; i < (mCustomPagerAdapter.getCount()); i++)
                 {
-                    ((ImageView)llPagerTab.getChildAt(i)).setImageResource(R.drawable.nonselecteditem_dot);
+                    ((ImageView)llPagerTab.getChildAt(i)).setImageResource(R.drawable.circle_gray);
                 }
                 if(postion == 0)
-                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_blue_dot);
+                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.circle_blue);
                 else if(postion == 1)
-                ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_yellow_dot);
+                ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.circle_yellow);
                 else if(postion == 2)
-                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_blue_dot);
+                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.circle_blue);
                 else if(postion == 3)
-                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.selecteditem_purpple_dot);
+                    ((ImageView)llPagerTab.getChildAt(postion)).setImageResource(R.drawable.circle_purpple);
             }
 
             @Override
@@ -94,9 +92,9 @@ public class ViewPagerDemo extends FragmentActivity
         {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             final ImageView imgvPagerController = new ImageView(ViewPagerDemo.this);
-            imgvPagerController.setPadding(7,8,7,8);
+            imgvPagerController.setPadding(7,5,7,5);
 
-            imgvPagerController.setImageResource(R.drawable.nonselecteditem_dot);
+            imgvPagerController.setImageResource(R.drawable.circle_gray);
 
 
             llPagerTab.addView(imgvPagerController);
@@ -105,7 +103,7 @@ public class ViewPagerDemo extends FragmentActivity
         pagerPosition = mViewPager.getCurrentItem();
 
         if(((ImageView)llPagerTab.getChildAt(pagerPosition)) != null)
-            ((ImageView)llPagerTab.getChildAt(pagerPosition)).setImageResource(R.drawable.selecteditem_blue_dot);
+            ((ImageView)llPagerTab.getChildAt(pagerPosition)).setImageResource(R.drawable.circle_blue);
 
     }
 
@@ -132,7 +130,7 @@ public class ViewPagerDemo extends FragmentActivity
             if(listFragments != null)
                 return listFragments.size();
             else
-                return 4;
+                return -1;
         }
 
 
